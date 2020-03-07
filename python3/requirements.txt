@@ -1,0 +1,3 @@
+avro-python3
+confluent-kafka
+kafka-python3
