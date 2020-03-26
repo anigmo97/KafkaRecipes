@@ -1,5 +1,6 @@
 package consumers.stringKeyAvroValueConsumers;
 
+import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
 
@@ -40,7 +41,7 @@ public class ConfluentAvroAndSchemaRegistryConsumer {
 		ConsumerRecords<String, GenericRecord> consumerRecords;
 		try {
 			while (true) {
-				consumerRecords = consumer.poll(1000);
+				consumerRecords = consumer.poll(Duration.ofMillis(1000));
 
 				consumerRecords.forEach(record -> {
 					System.out.printf("Consumer Record:(%s, %s)\n", record.key(), record.value());

@@ -1,5 +1,7 @@
 package consumers.stringKeyAvroValueConsumers;
 
+import java.time.Duration;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Collections;
@@ -45,6 +47,7 @@ public class StandardAvroConsumer {
 		final KafkaConsumer<String, byte[]> consumer = new KafkaConsumer<>(getConsumerProperties());
 		consumer.subscribe(Collections.singleton(TOPIC));
 		ConsumerRecords<String, byte[]> consumerRecords;
+		//this is the schema of the sent records from our producers
 		String valueSchemaString = "{\"type\": \"record\",\"namespace\": \"example.avro\",\"name\": \"test_record\","
 				+ "\"fields\":[" + "{\"name\": \"id\",\"type\": \"int\"},"
 				+ "{\"name\": \"date\",\"type\": [\"int\", \"null\"]}," + "{\"name\": \"info\",\"type\": \"string\"}"
@@ -53,7 +56,7 @@ public class StandardAvroConsumer {
 		SpecificDatumReader<GenericRecord> datumReader = new SpecificDatumReader<>(avroValueSchema);
 		try {
 			while (true) {
-				consumerRecords = consumer.poll(1000);
+				consumerRecords = consumer.poll(Duration.ofMillis(1000));
 
 				consumerRecords.forEach(record -> {
 					ByteArrayInputStream inputStream = new ByteArrayInputStream(record.value());
