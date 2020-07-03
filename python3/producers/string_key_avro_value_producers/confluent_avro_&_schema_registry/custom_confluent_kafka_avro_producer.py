@@ -5,6 +5,8 @@ from confluent_kafka.avro.error import ClientError
 from confluent_kafka import Producer
 
 
+
+
 class StringKeyAvroProducer(AvroProducer):
     """
         Kafka Producer client which does avro schema encoding to messages values only.
